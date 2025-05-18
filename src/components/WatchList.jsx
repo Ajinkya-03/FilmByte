@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiFillDelete } from "react-icons/ai";
 
-function WatchList() {
+function WatchList({watchList}) {
   return (
     <>
 
@@ -29,18 +29,22 @@ function WatchList() {
 
         <tbody>
 
-            <tr className='border '>
+          {watchList.map((movieObj)=>{
+            return  <tr className='border '>
                 <td className='flex items-center py-4 px-6'>
-                  <img className='h-[7rem] w-[9rem] ' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIM0-w43ChyvBSM5cXykYx5NV-Yl0WEX6Aqw&s`}/>
-                  <div className='mx-5'>The Batman</div>
+                  <img className='h-[9rem] w-[9rem] ' src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path}`}/>
+                  <div className='mx-5'>{movieObj.title}</div>
                 </td>
 
-                <td> 8.5</td>
-                <td> 8.5</td>
+                <td> {movieObj.vote_average}</td>
+                <td> {movieObj.popularity}</td>
                 <td> Action</td>
 
                 <td className='text-red-600 text-3xl cursor-pointer '><AiFillDelete /></td>
               </tr>
+          })}
+
+            
 
         
         </tbody>

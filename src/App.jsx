@@ -34,21 +34,12 @@ function App() {
       element={
         <>
           <Banner />
-          <Movies
-            watchList={watchList}
-            toggleWatchList={toggleWatchList} // ✅ pass toggle to Movies
+          <Movies watchList={watchList} toggleWatchList={toggleWatchList} // ✅ pass toggle to Movies
           />
         </>
       }
     />
-    <Route
-      path="/watchlist"
-      element={
-        <WatchList
-          watchList={watchList}
-          toggleWatchList={toggleWatchList} // ✅ pass toggle to WatchList
-        />
-      }
+    <Route path="/watchlist" element={<WatchList watchList={watchList}/>}
     />
   </Routes>
 </BrowserRouter>
