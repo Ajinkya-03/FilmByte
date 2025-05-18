@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { AiFillDelete } from "react-icons/ai";
-import { FaArrowAltCircleDown } from "react-icons/fa";
 import { FaArrowAltCircleUp } from "react-icons/fa";
 import genreids from '../assets/genre.js'
 
@@ -19,12 +18,7 @@ function WatchList({watchList , setWatchList}) {
       })
       setWatchList([...sortedIncreasing])
   }
-  let sortDecreasing= ()=>{
-    let sortedDecreasing = watchList.sort((movieA , movieB)=>{
-        return movieB.vote_average - movieA.vote_average
-      })
-    watchList([...sortedDecreasing])
-  }
+
 
   useEffect(()=>{
     let temp = watchList.map((movieObj)=>{
@@ -62,7 +56,6 @@ function WatchList({watchList , setWatchList}) {
               <th className='flex justify-center'>
                 <div onClick={sortIncreasing} className='p-2'><FaArrowAltCircleUp /></div>
                 <div className='p-1'>Rating</div>
-                <div onClick={sortDecreasing} className='p-2'><FaArrowAltCircleDown /></div>
               </th>
 
               
