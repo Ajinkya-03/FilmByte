@@ -12,18 +12,29 @@ function App() {
  const toggleWatchList = (movieObj) => {
     setWatchList((prevList) => {
       const exists = prevList.some((movie) => movie.id === movieObj.id);
+      let updated;
 
       if (exists) {
-        const updated = prevList.filter((movie) => movie.id !== movieObj.id);
+        updated = prevList.filter((movie) => movie.id !== movieObj.id);
         console.log('❌ Removed:', movieObj.title || movieObj.name);
-        return updated;
+        
       } else {
-        const updated = [...prevList, movieObj];
+        updated = [...prevList, movieObj];
         console.log('✅ Added:', movieObj.title || movieObj.name);
-        return updated;
       }
+      localStorage.setItem('moviesApp', JSON.stringify(updated));
+      return updated;
     });
   };
+
+  useEffect(()=>{
+    let moviesFromLocalStorage = localStorage.getItem('moviesApp')
+
+    if(!moviesFromLocalStorage){
+      return 
+    }
+    setWatchList(JSON.parse(moviesFromLocalStorage))
+  })
   
   return (
    <BrowserRouter>
