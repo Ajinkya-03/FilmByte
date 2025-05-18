@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiFillDelete } from "react-icons/ai";
+import { FaArrowAltCircleDown } from "react-icons/fa";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 
-function WatchList({watchList}) {
+function WatchList({watchList , setWatchList}) {
+
+  const [search , setSearch ] = useState('')
+
+  let handleSearch = (e)=>{
+      setSearch(e.target.value)
+  }
+
+  let sortIncreasing= ()=>{
+     let sortedIncreasing = watchList.sort((movieA , movieB)=>{
+        return movieA.vote_average - movieB.vote_average
+      })
+      setWatchList([...sortedIncreasing])
+  }
+  let sortDecreasing= ()=>{
+    let sortedDecreasing = watchList.sort((movieA , movieB)=>{
+        return movieB.vote_average - movieA.vote_average
+      })
+    watchList([...sortedDecreasing])
+  }
+
   return (
     <>
 
@@ -12,15 +34,24 @@ function WatchList({watchList}) {
 
 
     <div className='flex justify-center my-4 '>
-      <input className='h-[3rem] w-[20rem] bg-gray-300 p-3 border-none' type="text" placeholder='Search Here...'/>
+      <input onChange={handleSearch} value={search} className='h-[3rem] w-[20rem] bg-gray-300 p-3 border-none' type="text" placeholder='Search Here...'/>
     </div>
+
 
     <div className='rounded-lg overflow-hidden border border-black m-8'>
       <table className='w-full text-black text-center'>
         <thead className='border-b-9 '>
             <tr>
               <th>Name</th>
-              <th>Rating</th>
+              
+              
+              <th className='flex justify-center'>
+                <div onClick={sortIncreasing} className='p-2'><FaArrowAltCircleUp /></div>
+                <div className='p-1'>Rating</div>
+                <div onClick={sortDecreasing} className='p-2'><FaArrowAltCircleDown /></div>
+              </th>
+
+              
               <th>Popularity</th>
               <th>Genere</th>
             </tr>
@@ -29,7 +60,9 @@ function WatchList({watchList}) {
 
         <tbody>
 
-          {watchList.map((movieObj)=>{
+          {watchList.filter((movieObj)=>{
+            return movieObj.title.toLowerCase().includes(search.toLowerCase())
+          }).map((movieObj)=>{
             return  <tr className='border '>
                 <td className='flex items-center py-4 px-6'>
                   <img className='h-[9rem] w-[9rem] ' src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path}`}/>

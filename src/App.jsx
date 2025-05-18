@@ -7,35 +7,31 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [watchList, setWatchList] = useState([]);
+  const [watchList, setWatchList] = useState(()=>{
+    const saved = localStorage.getItem('watchList');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('watchList', JSON.stringify(watchList));
+  }, []);
 
  const toggleWatchList = (movieObj) => {
     setWatchList((prevList) => {
       const exists = prevList.some((movie) => movie.id === movieObj.id);
-      let updated;
 
       if (exists) {
-        updated = prevList.filter((movie) => movie.id !== movieObj.id);
+        const updated = prevList.filter((movie) => movie.id !== movieObj.id);
         console.log('❌ Removed:', movieObj.title || movieObj.name);
-        
+        return updated;
       } else {
-        updated = [...prevList, movieObj];
+        const updated = [...prevList, movieObj];
         console.log('✅ Added:', movieObj.title || movieObj.name);
+        return updated
       }
-      localStorage.setItem('moviesApp', JSON.stringify(updated));
-      return updated;
     });
   };
 
-  useEffect(()=>{
-    let moviesFromLocalStorage = localStorage.getItem('moviesApp')
-
-    if(!moviesFromLocalStorage){
-      return 
-    }
-    setWatchList(JSON.parse(moviesFromLocalStorage))
-  })
-  
   return (
    <BrowserRouter>
   <Navbar />
@@ -50,7 +46,7 @@ function App() {
         </>
       }
     />
-    <Route path="/watchlist" element={<WatchList watchList={watchList}/>}
+    <Route path="/watchlist" element={<WatchList watchList={watchList} setWatchList={setWatchList} />}
     />
   </Routes>
 </BrowserRouter>
