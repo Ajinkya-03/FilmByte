@@ -22,11 +22,11 @@ function App() {
 
       if (exists) {
         const updated = prevList.filter((movie) => movie.id !== movieObj.id);
-        console.log('❌ Removed:', movieObj.title || movieObj.name);
+        //console.log(' Removed:', movieObj.title || movieObj.name);
         return updated;
       } else {
         const updated = [...prevList, movieObj];
-        console.log('✅ Added:', movieObj.title || movieObj.name);
+        //console.log(' Added:', movieObj.title || movieObj.name);
         return updated
       }
     });
@@ -41,7 +41,7 @@ function App() {
       element={
         <>
           <Banner />
-          <Movies watchList={watchList} toggleWatchList={toggleWatchList} // ✅ pass toggle to Movies
+          <Movies watchList={watchList} toggleWatchList={toggleWatchList} 
           />
         </>
       }
@@ -54,57 +54,3 @@ function App() {
 }
 
 export default App;
-
-
-// function App() {
-//   const [watchList, setWatchList] = useState([]);
-
-  // const toggleWatchList = (movieObj) => {
-  //   setWatchList((prevList) => {
-  //     const exists = prevList.some((movie) => movie.id === movieObj.id);
-
-  //     if (exists) {
-  //       const updated = prevList.filter((movie) => movie.id !== movieObj.id);
-  //       console.log('❌ Removed:', movieObj.title || movieObj.name);
-  //       return updated;
-  //     } else {
-  //       const updated = [...prevList, movieObj];
-  //       console.log('✅ Added:', movieObj.title || movieObj.name);
-  //       return updated;
-  //     }
-  //   });
-  // };
-
-
-//   return (
-//     <return (
-//     <BrowserRouter>
-//       <Navbar />
-//       <Routes>
-//         <Route
-//           path="/"
-//           element={
-//             <>
-//               <Banner />
-//               <Movies
-//                 watchList={watchList}
-//                 toggleWatchList={toggleWatchList}
-//               />
-//             </>
-//           }
-//         />
-//         <Route
-//           path="/watchlist"
-//           element={
-//             <WatchList
-//               watchList={watchList}
-//               toggleWatchList={toggleWatchList}
-//             />
-//           }
-//         />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;

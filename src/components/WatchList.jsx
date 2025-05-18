@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillDelete } from "react-icons/ai";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import { FaArrowAltCircleUp } from "react-icons/fa";
+import genreids from '../assets/genre.js'
 
 function WatchList({watchList , setWatchList}) {
 
   const [search , setSearch ] = useState('')
+  const [genreList , setGenreList] = useState(['All Genres'])
 
   let handleSearch = (e)=>{
       setSearch(e.target.value)
@@ -24,11 +26,23 @@ function WatchList({watchList , setWatchList}) {
     watchList([...sortedDecreasing])
   }
 
+  useEffect(()=>{
+    let temp = watchList.map((movieObj)=>{
+      return genreids[movieObj.genre_ids[0]]
+    })
+    setGenreList(['All Genres' , ...temp])
+    console.log(temp)
+  },[watchList])
+
   return (
     <>
 
       <div className='flex justify-center flex-wrap'>
-        <div className=' flex justify-center bg-red-700 text-white font-bold h-[3rem] w-[6rem] rounded-xl items-center mx-4 '>Action</div>
+        {genreList.map((genre)=>{
+           return <div className=' flex justify-center bg-red-700 text-white font-bold h-[3rem] w-[6rem] rounded-xl items-center mx-4 '>
+            {genre}</div>
+        })}
+        
         <div className=' flex justify-center bg-gray-500 text-white font-bold h-[3rem] w-[6rem] rounded-xl items-center '>Action</div>
       </div>
 
@@ -71,7 +85,7 @@ function WatchList({watchList , setWatchList}) {
 
                 <td> {movieObj.vote_average}</td>
                 <td> {movieObj.popularity}</td>
-                <td> Action</td>
+                <td> {genreids[movieObj.genre_ids[0]]}</td>
 
                 <td className='text-red-600 text-3xl cursor-pointer '><AiFillDelete /></td>
               </tr>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaRegHeart, FaHeart  } from 'react-icons/fa';
 
 function MovieCard({ poster_path, name, movieObj, watchList, toggleWatchList }) {
   const isInWatchlist = watchList.some((movie) => movie.id === movieObj.id);
@@ -17,10 +17,10 @@ function MovieCard({ poster_path, name, movieObj, watchList, toggleWatchList }) 
         className={`m-4 flex justify-center text-3xl transition-all p-2 rounded-full cursor-pointer 
           ${isInWatchlist
             ? 'text-red-600 hover:bg-red-100'
-            : 'text-green-600 hover:bg-green-100'
+            : 'text-black hover:bg-green-100'
         }`}
         title={isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}>
-        {isInWatchlist ? <FaTimesCircle /> : <FaCheckCircle />}
+        {isInWatchlist ? <FaHeart  /> : <FaRegHeart />}
       </div>
 
       <div className="mt-2 text-center bg-gray-200 text-black font-semibold border-b-2 border-gray-400 pb-1">

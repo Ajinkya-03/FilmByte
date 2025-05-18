@@ -9,7 +9,7 @@ function Navbar() {
   <div className="flex items-center justify-between px-6 py-4 bg-white shadow">
     <div className="flex items-center space-x-2">
         <img src={Logo} alt="Logo" className="w-11" />
-        <h1 className="text-2xl font-bold text-black">FLIMBYTE</h1>
+        <h1 className="text-2xl font-bold text-black">FILMBYTE</h1>
     </div>
 
     <nav className="flex space-x-6">
