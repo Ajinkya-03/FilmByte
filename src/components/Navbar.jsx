@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import Logo from '../Logo.gif'
 
 import { Link } from 'react-router-dom'

@@ -4,59 +4,109 @@ import Movies from './components/Movies';
 import Navbar from './components/Navbar';
 import WatchList from './components/WatchList';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [watchList, setWatchList] = useState([]);
 
-  const handelAddToWatchList = (movieObj) => {
-    const alreadyInList = watchList.some((movie) => movie.id === movieObj.id);
-    if (!alreadyInList) {
-      setWatchList([...watchList, movieObj]);
-    }
+ const toggleWatchList = (movieObj) => {
+    setWatchList((prevList) => {
+      const exists = prevList.some((movie) => movie.id === movieObj.id);
+
+      if (exists) {
+        const updated = prevList.filter((movie) => movie.id !== movieObj.id);
+        console.log('❌ Removed:', movieObj.title || movieObj.name);
+        return updated;
+      } else {
+        const updated = [...prevList, movieObj];
+        console.log('✅ Added:', movieObj.title || movieObj.name);
+        return updated;
+      }
+    });
   };
-
-  const handelRemoveToWatchList = (movieObj) => {
-    const filterWatchlist = watchList.filter((movie) => movie.id !== movieObj.id);
-    setWatchList(filterWatchlist);
-  };
-
-  useEffect(() => {
-    console.log("Updated WatchList:", watchList);
-  }, [watchList]);
-
+  
   return (
-    <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Banner />
-                <Movies
-                  watchList={watchList}
-                  handelAddToWatchList={handelAddToWatchList}
-                  handelRemoveToWatchList={handelRemoveToWatchList}
-                />
-              </>
-            }
+   <BrowserRouter>
+  <Navbar />
+  <Routes>
+    <Route
+      path="/"
+      element={
+        <>
+          <Banner />
+          <Movies
+            watchList={watchList}
+            toggleWatchList={toggleWatchList} // ✅ pass toggle to Movies
           />
-          <Route
-            path="/watchlist"
-            element={
-              <WatchList
-                watchList={watchList}
-                handelRemoveToWatchList={handelRemoveToWatchList}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+        </>
+      }
+    />
+    <Route
+      path="/watchlist"
+      element={
+        <WatchList
+          watchList={watchList}
+          toggleWatchList={toggleWatchList} // ✅ pass toggle to WatchList
+        />
+      }
+    />
+  </Routes>
+</BrowserRouter>
   );
 }
 
 export default App;
+
+
+// function App() {
+//   const [watchList, setWatchList] = useState([]);
+
+  // const toggleWatchList = (movieObj) => {
+  //   setWatchList((prevList) => {
+  //     const exists = prevList.some((movie) => movie.id === movieObj.id);
+
+  //     if (exists) {
+  //       const updated = prevList.filter((movie) => movie.id !== movieObj.id);
+  //       console.log('❌ Removed:', movieObj.title || movieObj.name);
+  //       return updated;
+  //     } else {
+  //       const updated = [...prevList, movieObj];
+  //       console.log('✅ Added:', movieObj.title || movieObj.name);
+  //       return updated;
+  //     }
+  //   });
+  // };
+
+
+//   return (
+//     <return (
+//     <BrowserRouter>
+//       <Navbar />
+//       <Routes>
+//         <Route
+//           path="/"
+//           element={
+//             <>
+//               <Banner />
+//               <Movies
+//                 watchList={watchList}
+//                 toggleWatchList={toggleWatchList}
+//               />
+//             </>
+//           }
+//         />
+//         <Route
+//           path="/watchlist"
+//           element={
+//             <WatchList
+//               watchList={watchList}
+//               toggleWatchList={toggleWatchList}
+//             />
+//           }
+//         />
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;

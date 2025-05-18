@@ -1,25 +1,8 @@
 import React from 'react';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
-function MovieCard({
-  poster_path,
-  name,
-  handelAddToWatchList,
-  handelRemoveToWatchList,
-  movieObj,
-  Watchlist = [],
-}) {
-  // Check if movie is already in the watchlist
-  const isInWatchlist = Watchlist.some((movie) => movie.id === movieObj.id);
-
-  // Toggle handler: add or remove based on presence
-  const handleToggle = () => {
-    if (isInWatchlist) {
-      handelRemoveToWatchList(movieObj);
-    } else {
-      handelAddToWatchList(movieObj);
-    }
-  };
+function MovieCard({ poster_path, name, movieObj, watchList, toggleWatchList }) {
+  const isInWatchlist = watchList.some((movie) => movie.id === movieObj.id);
 
   return (
     <div className="w-[200px] hover:scale-105 duration-300 hover:cursor-pointer">
@@ -29,16 +12,14 @@ function MovieCard({
         className="h-[45vh] w-full object-cover rounded-xl mt-4"
       />
 
-      {/* Single Toggle Button */}
       <div
-        onClick={handleToggle}
-        className={`m-4 flex justify-center text-3xl transition-all p-2 rounded-full cursor-pointer ${
-          isInWatchlist
+        onClick={() => toggleWatchList(movieObj)}
+        className={`m-4 flex justify-center text-3xl transition-all p-2 rounded-full cursor-pointer 
+          ${isInWatchlist
             ? 'text-red-600 hover:bg-red-100'
             : 'text-green-600 hover:bg-green-100'
         }`}
-        title={isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
-      >
+        title={isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}>
         {isInWatchlist ? <FaTimesCircle /> : <FaCheckCircle />}
       </div>
 
@@ -50,3 +31,4 @@ function MovieCard({
 }
 
 export default MovieCard;
+

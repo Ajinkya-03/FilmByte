@@ -3,57 +3,54 @@ import MovieCard from './MovieCard'
 import axios from 'axios'
 import Pagination from './Pagination'
 
-function Movies({handelAddToWatchList , handelRemoveToWatchList , Watchlist}) {
 
-  const [movies, setMovies] = useState([])
-  const [pageNo, setpageNo] = useState(1)
+function Movies({ watchList, toggleWatchList }) {
 
-  const handelPrev = () =>{
-    if(pageNo === 1 ){
-      setpageNo(pageNo)
+  const [Movies, setMovies] = useState([])
+  const [pageNo, setPageNo] = useState(1)
+
+  const handlePrev = () =>{
+    if(pageNo==1){
+      setPageNo(1)
     }
-    else{
-      setpageNo(pageNo-1)
-    }
-    
+      setPageNo(pageNo-1)
+  }
+  const handleNext = () => {
+      setPageNo(pageNo+1)
   }
 
-  const handelNext = () =>{
-    setpageNo(pageNo+1)
-  }
+  useEffect(() => {
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=2bdc99d85c9afb7553a8303b57f438d7&page=${pageNo}`).then(function(res){
+      console.log(res.data.results)
+      setMovies(res.data.results)});
+  }, [pageNo])
 
-  useEffect(()=>{
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=2bdc99d85c9afb7553a8303b57f438d7&language=en-US&page=${pageNo}`).then(function(res){
-      setMovies(res.data.results)
-    })
-  },[pageNo])
-
+  
 
   return (
+
     <div className='p-5'>
       <div className='text-2xl m-5 font-bold text-center '>
         Trending Movies 👇
       </div>
 
-      <div className='flex flex-row flex-wrap justify-around m-5 '>
-        
-        {movies.map((movieObj)=>{
-          return <MovieCard 
-          key={movieObj.id} 
-          movieObj={movieObj} 
-          poster_path={movieObj.poster_path} 
-          name={movieObj.original_title} 
-          handelAddToWatchList={handelAddToWatchList} 
-          handelRemoveToWatchList={handelRemoveToWatchList}
-          Watchlist={Watchlist}
+    <div className="flex flex-wrap justify-center gap-4">
+        {Movies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            poster_path={movie.poster_path}
+            name={movie.title}
+            movieObj={movie}
+            watchList={watchList}
+            toggleWatchList={toggleWatchList}
           />
-        })}
+        ))}
       </div>
 
-      <Pagination handelNext={handelNext} handelPrev={handelPrev} pageNo={pageNo} />
-
+      
+      <Pagination handlePrev={handlePrev} handleNext={handleNext} pageNo={pageNo} />
     </div>
-  )
+  );
 }
 
-export default Movies
+export default Movies;
