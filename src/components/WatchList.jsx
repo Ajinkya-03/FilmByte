@@ -80,7 +80,15 @@ function WatchList({watchList , setWatchList}) {
                 <td> {movieObj.popularity}</td>
                 <td> {genreids[movieObj.genre_ids[0]]}</td>
 
-                <td className='text-red-600 text-3xl cursor-pointer '><AiFillDelete /></td>
+                <td
+                  className="text-red-600 text-3xl cursor-pointer"
+                  onClick={() => {
+                    const updated = watchList.filter((movie) => movie.id !== movieObj.id);
+                    setWatchList(updated);
+                  }}
+                >
+                  <AiFillDelete />
+                </td>
               </tr>
           })}
 

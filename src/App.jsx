@@ -20,15 +20,9 @@ function App() {
     setWatchList((prevList) => {
       const exists = prevList.some((movie) => movie.id === movieObj.id);
 
-      if (exists) {
-        const updated = prevList.filter((movie) => movie.id !== movieObj.id);
-        //console.log(' Removed:', movieObj.title || movieObj.name);
-        return updated;
-      } else {
-        const updated = [...prevList, movieObj];
-        //console.log(' Added:', movieObj.title || movieObj.name);
-        return updated
-      }
+     return exists
+        ? prevList.filter((movie) => movie.id !== movieObj.id)
+        : [...prevList, movieObj];
     });
   };
 
